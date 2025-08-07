@@ -1,14 +1,14 @@
 from sqlalchemy import Engine, select
 from sqlalchemy.orm import Session
-from models import Produto
+from models import Categoria
 
 
 def listar(engine: Engine):
     with Session(engine) as session:
-        sentence = select(Produto)
-        registros = select(Produto).order_by(Produto.nome)
+        sentenca = select(Categoria).order_by(Categoria.nome)
+        registros = session.execute(sentenca).scalars()
         print("Id, Nome, #produtos, Data cadastro, Data de modificacao")
-        for produto in  registros:
+        for categoria in  registros:
             print(f"{categoria.id}, {categoria.nome}{len(categoria.lista_de_produtos)}, "
                   f"{categoria.dta_cadastro}, {categoria.dta_atualizacao}")
 
@@ -59,7 +59,7 @@ def deletar(engine: Engine):
             print(f"{contador} - {c.nome}")
             dicionario[contador] = c.id
             contador += 1
-    id = int(input("Digite o numero da categoria que será modificada: "))
+    id = int(input("Digite o numero da categoria que será deletada: "))
     categoria = session.get_one(Categoria, dicionario[id])
     session.delete(categoria)
     try:

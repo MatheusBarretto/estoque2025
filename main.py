@@ -18,11 +18,11 @@ if __name__ == '__main__':
 
         opcao = input("Digite a opção desejada: ")
         match opcao:
-            case 1 :
+            case "1" :
                 app_categorias.listar(engine)
-            case 2 :
+            case "2" :
                 app_categorias.adicionar(engine)
-            case 3 :
+            case "3" :
                 app_categorias.modificar(engine)
-            case 4 :
+            case "4" :
                 app_categorias.deletar(engine)
