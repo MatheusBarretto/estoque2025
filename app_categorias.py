@@ -1,0 +1,70 @@
+from sqlalchemy import Engine, select
+from sqlalchemy.orm import Session
+from models import Produto
+
+
+def listar(engine: Engine):
+    with Session(engine) as session:
+        sentence = select(Produto)
+        registros = select(Produto).order_by(Produto.nome)
+        print("Id, Nome, #produtos, Data cadastro, Data de modificacao")
+        for produto in  registros:
+            print(f"{categoria.id}, {categoria.nome}{len(categoria.lista_de_produtos)}, "
+                  f"{categoria.dta_cadastro}, {categoria.dta_atualizacao}")
+
+
+def adicionar(engine: Engine):
+    with Session(engine) as session:
+        nome = input("Nome da categoria: ")
+        categoria = Categoria()
+        categoria.nome = nome
+        session.add(categoria)
+        try:
+            session.commit()
+        except:
+            print("Erro ao adicionar")
+        else:
+            print("Categoria adicionada com sucesso")
+
+
+def modificar(engine: Engine):
+    with Session(engine) as session:
+        sentence = select(Categoria).order_by(Categoria.nome)
+        categorias = session.execute(sentence).scalars()
+        dicionario = dict()
+        contador = 1
+        for c in categorias:
+            print(f"{contador} - {c.nome}")
+            dicionario[contador] = c.id
+            contador += 1
+    id = int(input("Digite o numero da categoria que será modificada: "))
+    categoria = session.get_one(Categoria, dicionario[id])
+    nome = input("Digite o novo nome da categoria: ")
+    categoria.nome = nome
+    try:
+        session.commit()
+    except:
+        print("Erro ao modificar")
+    else:
+        print("Categoria modificada com sucesso")
+
+
+def deletar(engine: Engine):
+    with Session(engine) as session:
+        sentence = select(Categoria).order_by(Categoria.nome)
+        categorias = session.execute(sentence).scalars()
+        dicionario = dict()
+        contador = 1
+        for c in categorias:
+            print(f"{contador} - {c.nome}")
+            dicionario[contador] = c.id
+            contador += 1
+    id = int(input("Digite o numero da categoria que será modificada: "))
+    categoria = session.get_one(Categoria, dicionario[id])
+    session.delete(categoria)
+    try:
+        session.commit()
+    except:
+        print("Erro ao deletar")
+    else:
+        print("Categoria deletada com sucesso")
